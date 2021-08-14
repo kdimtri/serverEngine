@@ -38,9 +38,8 @@ func NewModel() *Model {
 // Draw impliments image/draw.Drawer interface
 // Concurently draws items in storage
 func (m *Model) Draw(dst draw.Image, r image.Rectangle, src image.Image, sp image.Point) {
-	b := src.Bounds()
 	ch := make(chan int)
-	for i := 0; i < m.len(); i++ {
+	for i := 0; i < len(m.Storage); i++ {
 		go func(item Item, done chan int, dstc draw.Image, rcc image.Rectangle, srcc image.Image, spc image.Point) {
 			item.Draw(dstc, rcc, srcc, spc)
 			done <- item.id
@@ -62,8 +61,8 @@ type modelRespond struct {
 	Result string `json:"result"`
 }
 
-func (m *Model) respond() ModelRespond {
-	return ModelRespond{"ok", m.Name}
+func (m *Model) respond() modelRespond {
+	return modelRespond{"ok", m.Name}
 }
 func (m *Model) newError(msg string) error {
 	return fmt.Errorf("Model error: %v", msg)

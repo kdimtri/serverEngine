@@ -47,7 +47,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if next.Logger {
 		next.Handler = engine.Logger(next.Handler)
 	}
-	next.Handler.ServeHTTP(w, r.WithContext(ctx))
+	next.Handler.ServeHTTP(w, r.WithContext(*ctx))
 }
 
 func newError(err error, statusCode int) *engine.Router {
@@ -59,8 +59,8 @@ func newError(err error, statusCode int) *engine.Router {
 	}
 }
 func endpoint(r *http.Request) *engine.Router {
-	m := &model.Handler{}
-	if err := engine.ParseBody(r.Body, p); err != nil {
+	m := NewModel()
+	if err := engine.ParseBody(r.Body, m); err != nil {
 		return newError(err, http.StatusUnprocessableEntity)
 	}
 	return &engine.Router{
