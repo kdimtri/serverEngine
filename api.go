@@ -7,7 +7,6 @@ import (
 	"net/http/pprof"
 
 	"github.com/kdimtri/serverEngine/engine"
-	"github.com/kdimtri/serverEngine/model"
 )
 
 // API it is first http.Handler that gets all server requests
@@ -19,6 +18,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var next *engine.Router
 	var head string
 	var urlPath string
+	ctx := engine.SetContext(r)
 	head, urlPath = engine.ShiftPath(r.URL.Path)
 	if head == "api" {
 		head, urlPath = engine.ShiftPath(urlPath)

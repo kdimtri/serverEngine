@@ -21,6 +21,7 @@ const (
 	ContextPrivateMountPath
 )
 
+//SetContext sets context.Context from request
 func SetContext(r *http.Request) *context.Context {
 	ctx := context.WithValue(r.Context(), ContextRequestStart, time.Now())
 	return &ctx
