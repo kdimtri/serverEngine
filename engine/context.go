@@ -1,5 +1,11 @@
 package engine
 
+import (
+	"context"
+	"net/http"
+	"time"
+)
+
 type key int
 
 const (
@@ -14,3 +20,8 @@ const (
 	// ContextPrivateMountPath holds private path prefix value
 	ContextPrivateMountPath
 )
+
+func SetContext(r *http.Request) *context.Context {
+	ctx := context.WithValue(r.Context(), ContextRequestStart, time.Now())
+	return &ctx
+}
