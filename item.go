@@ -1,4 +1,4 @@
-package model
+package main
 
 import (
 	"image"
@@ -11,7 +11,7 @@ type Item struct {
 }
 
 // NewItem returns new Item
-func NewItem(id width, height int) *Item {
+func NewItem(id int, width int, height int) *Item {
 	return &Item{
 		id:   id,
 		rect: image.Rect(0, 0, width, height),
